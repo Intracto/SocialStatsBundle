@@ -1,0 +1,61 @@
+{% extends 'SocialStatsBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    <style>
+        nav.menu-nav {
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        nav.menu-nav ul {
+            padding-left: 0;
+        }
+
+        nav.menu-nav ul li {
+            list-style-type: none;
+            display:inline-block;
+            margin-right:15px;
+        }
+
+        .tab-pane {
+            padding: 25px 0;
+        }
+
+        .chart-box {
+            width: 900px;
+            height: 500px;
+
+            margin: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div role="navigation" class="row">
+        {{ include('SocialStatsBundle::nav.html.twig') }}
+
+        <h4>Twitter</h4>
+
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="active"><a href="#chart-data">Chart</a></li>
+            <li role="presentation"><a href="#raw-data">Raw data</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active loading-wrapper" id="chart-data">
+                {% include 'SocialStatsBundle::charts/line-chart.html.twig' with {'accountData' : accountData } %}
+            </div>
+
+            <div role="tabpanel" class="tab-pane loading-wrapper" id="raw-data">
+                {% include 'SocialStatsBundle::raw-data-table.html.twig' with {'accountData' : accountData } %}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    {% include 'SocialStatsBundle::charts/line-chart-js.html.twig' with {'accountData' : accountData, 'socialNetwork' : 'Twitter', 'socialType' : 'Followers' } %}
+{% endblock %}

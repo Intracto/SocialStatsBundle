@@ -1,0 +1,31 @@
+SocialStatsBundle\Entity\Log:
+    type: entity
+    table: social_stats_log
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: true
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        timestamp:
+            type: datetime
+            nullable: false
+        source:
+            type: string
+            nullable: false
+            length: 255
+        account:
+            type: string
+            nullable: false
+            length: 255
+        type:
+            type: string
+            nullable: false
+            length: 255
+        content:
+            type: integer
+            nullable: false

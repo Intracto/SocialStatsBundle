@@ -1,0 +1,13 @@
+<ul class="nav nav-pills">
+    {% for account, data in accountData %}
+        <li role="presentation" {% if loop.first %}class="active"{% endif %}><a href="#chart-data-{{ loop.index0 }}">{{ account }}</a></li>
+    {% endfor %}
+</ul>
+<div class="tab-content">
+    {% for account, data in accountData %}
+        <div role="tabpanel" class="tab-pane {% if loop.first %}active{% endif %} loading-wrapper" id="chart-data-{{ loop.index0 }}">
+            <div id="chart-{{ loop.index0 }}" class="chart-box">
+            </div>
+        </div>
+    {% endfor %}
+</div>

@@ -1,0 +1,77 @@
+services:
+
+  # Guzzle services
+  guzzlehttp.client:
+      class: GuzzleHttp\Client
+      public: false
+
+  generator.log.dummy_data:
+      class: SocialStatsBundle\Service\LogDummyDataGenerator
+      arguments: [@doctrine.dbal.default_connection, %social_stats.facebook.pages%, %social_stats.twitter.usernames%]
+
+  command.generator.log_dummy_data:
+      class: SocialStatsBundle\Command\LogDummyDataGenerateCommand
+      arguments: [@generator.log.dummy_data]
+      tags:
+        - { name: console.command }
+
+  # Twitter related services
+  guzzlehttp.subscriber.oauth.twitter:
+      class: GuzzleHttp\Subscriber\Oauth\Oauth1
+      public: false
+      arguments: [{consumer_key: %social_stats.twitter.api_key%, consumer_secret: %social_stats.twitter.api_secret%, token: %social_stats.twitter.access_token%, token_secret: %social_stats.twitter.access_token_secret%}]
+
+  guzzlehttp.client.twitter:
+      class: GuzzleHttp\Client
+      public: false
+      arguments: [{base_url: %social_stats.twitter.base_url%, defaults: {auth: 'oauth'}}]
+
+  api.twitter:
+      class: SocialStatsBundle\Service\API\TwitterAPIService
+      public: false
+      arguments: [@guzzlehttp.client.twitter, @guzzlehttp.subscriber.oauth.twitter]
+
+  logger.twitter.counter.followers:
+      class: SocialStatsBundle\Service\Logging\Twitter\FollowerCountLogger
+      public: false
+      arguments: [@doctrine.orm.default_entity_manager]
+
+  command.logger.twitter.counter.follower:
+      class: SocialStatsBundle\Command\Twitter\LogFollowerCountCommand
+      arguments: [@api.twitter, @logger.twitter.counter.followers, %social_stats.twitter.usernames%]
+      tags:
+          -  { name: console.command }
+
+  chart.data_retriever.twitter:
+      class: SocialStatsBundle\Service\ChartDataRetrievalService
+      arguments: [@doctrine.dbal.default_connection]
+      calls:
+          - ['setSource', ['Twitter']]
+          - ['setAccounts', [%social_stats.twitter.usernames%]]
+
+  # Facebook related services
+  guzzlehttp.client.facebook:
+      alias: guzzlehttp.client
+
+  api.facebook:
+      class: SocialStatsBundle\Service\API\FacebookAPIService
+      public: false
+      arguments: [@guzzlehttp.client.facebook, %social_stats.facebook.app_id%, %social_stats.facebook.api_secret%]
+
+  logger.facebook.counter.page_likes:
+      class: SocialStatsBundle\Service\Logging\Facebook\PageLikeCountLogger
+      public: false
+      arguments: [@doctrine.orm.default_entity_manager]
+
+  command.logger.facebook.count.page_likes:
+      class: SocialStatsBundle\Command\Facebook\LogPageLikesCountCommand
+      arguments: [@api.facebook, @logger.facebook.counter.page_likes, %social_stats.facebook.pages%]
+      tags:
+          -  { name: console.command }
+
+  chart.data_retriever.facebook:
+      class: SocialStatsBundle\Service\ChartDataRetrievalService
+      arguments: [@doctrine.dbal.default_connection]
+      calls:
+          - ['setSource', ['Facebook']]
+          - ['setAccounts', [%social_stats.facebook.pages%]]

@@ -1,0 +1,7 @@
+social_stats_default:
+    path:     /
+    defaults: { _controller: SocialStatsBundle:Default:facebook }
+
+social_stats_twitter:
+    path:     /twitter
+    defaults: { _controller: SocialStatsBundle:Default:twitter }

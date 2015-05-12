@@ -1,0 +1,38 @@
+<script type="text/javascript">
+    google.load('visualization', '1', {packages: ['corechart', 'line']});
+    google.setOnLoadCallback(drawBackgroundColor);
+
+    function drawBackgroundColor() {
+        {% for account, data in accountData %}
+        var data = new google.visualization.DataTable();
+        data.addColumn('datetime', 'Timeline');
+        data.addColumn('number', '{{ socialType }}' );
+
+        {% for column in data %}
+        data.addRow([ new Date({{ column.timestamp }} * 1000) , {{ column.content }} ]);
+        {% endfor %}
+
+        var options = {
+            width: 900,
+            height: 500,
+            hAxis: {
+                title: 'Timeline'
+            },
+            vAxis: {
+                title: '{{ socialType }}',
+                viewWindowMode: 'maximized',
+                logScale: true
+            },
+            backgroundColor: '#fff',
+            explorer: {
+                maxZoomOut:1,
+                keepInBounds: true
+            }
+        };
+
+        var chart = new google.visualization.AreaChart(document.getElementById("chart-" + '{{ loop.index0 }}'));
+        chart.draw(data, options);
+
+        {% endfor %}
+    }
+</script>

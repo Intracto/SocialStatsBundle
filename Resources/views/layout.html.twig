@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>SocialStatsBundle</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" type="text/css"/>
+    <style>
+        header {
+            background-color: #eee;
+            margin-bottom: 20px;
+            padding: 10px;
+
+            font-size: 1.2em;
+            text-align: center;
+        }
+    </style>
+    {% block stylesheets %}
+
+    {% endblock %}
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+<header>
+    <div class="container">
+        <strong>SocialStatsBundle for Symfony2 framework</strong>
+    </div>
+</header>
+<div class="container">
+    {% block content %}
+
+    {% endblock %}
+</div>
+</body>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $('.nav.nav-tabs').find('li>a').click(useTabs);// Tabs for live results
+    $('.nav.nav-pills').find('li>a').click(useTabs);// Tabs for live results
+
+    /**
+     * Activate twitter bootstrap tabs
+     * @param e
+     */
+    function useTabs (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    }
+</script>
+{% block javascripts %}
+
+{% endblock %}
+</html>

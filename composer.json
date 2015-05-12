@@ -1,0 +1,36 @@
+{
+    "name": "intracto/socialstats-bundle",
+    "type": "symfony-bundle",
+    "description": "This bundle provides a way to keep track of your social media accounts with Symfony2",
+    "keywords": ["software", "socialmedia", "statistics"],
+    "homepage": "https://github.com/intracto",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Axel Vankrunkelsven",
+            "email": "axel@digilabs.be"
+        }
+    ],
+
+    "require": {
+        "php": ">=5.3.9",
+        "doctrine/orm": "~2.2",
+        "doctrine/dbal": "<2.5",
+        "doctrine/doctrine-bundle": "~1.2",
+        "twig/extensions": "1.0.*",
+        "symfony/framework-bundle": "~2.1",
+        "guzzlehttp/guzzle": "~5.2",
+        "guzzlehttp/oauth-subscriber": "0.2.*",
+        "facebook/php-sdk-v4" : "4.0.*"
+    },
+
+    "config": {
+        "bin-dir": "bin"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "SocialStatsBundle": ""
+        }
+    }
+}
